@@ -64,32 +64,29 @@ def parse_contents(contents, filename, date):
     return html.Div([
         html.H5(filename),
         html.H6(datetime.datetime.fromtimestamp(date)),
-
+        html.H2("Raw Data"),
         # Use the DataTable prototype component:
         # github.com/plotly/dash-table-experiments
         dt.DataTable(rows=df.to_dict('records'),
         row_selectable=True,
         filterable=True,
         sortable=True,
-        selected_row_indices=[],
         id ='raw-data'),
         
         html.Hr(),  # horizontal line
-        
+        html.H2("Categorical Summary"),
         dt.DataTable(rows=description(df).to_dict('records'),
-        row_selectable=True,
-        filterable=True,
-        sortable=True,
-        selected_row_indices=[],
+        row_selectable=False,
+        filterable=False,
+        sortable=False,
         id = 'desc'),
         
         html.Hr(),  # horizontal line
-        
+        html.H2("Numerical Summary"),
         dt.DataTable(rows=summary(df).to_dict('records'),
-        row_selectable=True,
-        filterable=True,
-        sortable=True,
-        selected_row_indices=[],
+        row_selectable=False,
+        filterable=False,
+        sortable=False,
         id = 'sum'),
         
         html.Hr(),  # horizontal line
@@ -107,6 +104,7 @@ def parse_contents(contents, filename, date):
               [Input('upload-data', 'contents')],
               [State('upload-data', 'filename'),
                State('upload-data', 'last_modified')])
+
 def update_output(list_of_contents, list_of_names, list_of_dates):
     if list_of_contents is not None:
         children = [
